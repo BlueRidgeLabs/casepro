@@ -24,7 +24,7 @@ SENTRY_DSN = os.environ.get('SENTRY_DSN')
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get(
-            'CASEPRO_DATABASE',
+            'DATABASE_URL',
             'postgres://casepro:nyaruka@localhost/casepro')),
 }
 
@@ -106,9 +106,9 @@ SITE_CONTACT_DISPLAY = os.environ.get('SITE_CONTACT_DISPLAY',
                                       'name')
 SITE_MAX_MESSAGE_CHARS = 640  # the max value for this is 800
 
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost:6379')
-
-BROKER_URL = 'redis://%s/%d' % (REDIS_HOST, 10 if TESTING else 15)  # noqa TESTING defined in settings_common (flake8)
+REDIS_HOST = os.environ.get('REDIS_URL', 'localhost:6379')
+# REDIS_URL contains the scheme
+BROKER_URL = '%s/%d' % (REDIS_HOST, 10 if TESTING else 15)  # noqa TESTING defined in settings_common (flake8)
 CELERY_RESULT_BACKEND = BROKER_URL
 CACHES = {
     'default': {
